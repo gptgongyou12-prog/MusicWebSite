@@ -72,11 +72,11 @@
     <h1>Music App</h1>
     <p class="sub">원하는 음악 사이트를 앱처럼.<br>브라우저 없이, 광고 없이.</p>
 
-    <a class="btn" href="#" id="dl-btn">
+    <a class="btn" href="https://github.com/gptgongyou12-prog/MusicWebApp/releases/latest/download/app-release.apk" id="dl-btn">
       <svg viewBox="0 0 24 24"><path d="M12 16l-5-5 1.41-1.41L11 13.17V4h2v9.17l2.59-2.58L17 11l-5 5zm-7 4v-2h14v2H5z"/></svg>
       APK 다운로드
     </a>
-    <p class="version" id="ver">최신 버전 불러오는 중…</p>
+    <p class="version" id="ver"></p>
 
     <div class="steps">
       <div class="step"><div class="num">1</div><p>APK 다운로드 후 <strong>파일 앱</strong>에서 열기</p></div>
@@ -86,17 +86,11 @@
   </div>
 
   <script>
-    const REPO = 'gptgongyou12-prog/MusicWebApp';
-    fetch(`https://api.github.com/repos/${REPO}/releases/latest`)
+    // 버전 표시만 API로 (실패해도 다운로드는 정상 작동)
+    fetch('https://api.github.com/repos/gptgongyou12-prog/MusicWebApp/releases/latest')
       .then(r => r.json())
-      .then(data => {
-        const apk = data.assets?.find(a => a.name.endsWith('.apk'));
-        if (apk) document.getElementById('dl-btn').href = apk.browser_download_url;
-        document.getElementById('ver').textContent = data.tag_name ?? '';
-      })
-      .catch(() => {
-        document.getElementById('ver').textContent = '';
-      });
+      .then(data => { document.getElementById('ver').textContent = data.tag_name ?? ''; })
+      .catch(() => {});
   </script>
 </body>
 </html>
